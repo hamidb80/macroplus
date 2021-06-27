@@ -16,12 +16,17 @@ const
 
   DefaultIndent* = 4
 
-func applyIndent*(lines: openArray[string]): auto =
-  lines.mapIt it.indent DefaultIndent
+
+func simplify*(node: NimNode): NimNode=
+  result = node
+
+  while result.kind == nnkPar:
+    result = result[0]
+
 
 func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
-  doAssert nestedCommand.kind == nnkCommand
   ## return a statement list of idents
+  doAssert nestedCommand.kind == nnkCommand
   result = newStmtList()
 
   var currentNode = nestedCommand
@@ -35,30 +40,38 @@ func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
 
     currentNode = body
 
+func flattenDeepInfix(childNode: NimNode, infixIdent: string, result: var NimNode)=
+  if childNode.kind == nnkInfix and childNode[InfixIdent].repr == infixIdent:
+    flattenDeepInfix simplify childNode[InfixLeftSide], infixIdent, result
+    flattenDeepInfix simplify childNode[InfixRightSide], infixIdent, result
+  else:
+    if childNode.repr != infixIdent:
+      result.insert 1, childNode
+
 func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
   ## return a statement list of idents
   doAssert nestedInfix.kind == nnkInfix
-  
-  let infixIdent = nestedInfix[InfixIdent]
-  
   result = newNimNode(nnkInfix)
+
+  let infixIdent = nestedInfix[InfixIdent]
   result.add infixIdent
+  
+  flattenDeepInfix  nestedInfix, infixIdent.repr, result
 
-  var currentNode = nestedInfix
-  while true:
-    result.add currentNode[InfixRightSide]
-
-    let body = currentNode[InfixLeftSide]
-    if body.kind != nnkInfix:
-      if body.repr != infixIdent.repr:
-        result.insert 1, body
-      break
-
-    currentNode = body
 
 static:
-  let a = quote:
-    hamid and ali and mahdi and reza
+  block nestedInfix:
+    let a = quote:
+      # hamid and ali and mahdi and reza
+      (hamid) and (((ali and mahdi)) and reza)
+      # hamid or ali and mahdi or reza
 
-  echo a.treeRepr
-  echo a.flattenDeepInfix.treeRepr
+    # echo a.treeRepr
+    # echo "res----------------------"
+    echo a.flattenDeepInfix.treeRepr
+
+  block nestedCommand:
+    let a = quote:
+      1 2 ident "string" [das, 3 , 4] 5
+    
+    echo a.flattenDeepCommands.treeRepr
