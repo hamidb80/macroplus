@@ -1,4 +1,4 @@
-import strutils, sequtils, macros
+import macros
 
 const
   ForBody* = ^1
@@ -16,17 +16,11 @@ const
 
   DefaultIndent* = 4
 
-
-func simplify*(node: NimNode): NimNode=
-  result = node
-
-  while result.kind == nnkPar:
-    result = result[0]
-
+# TODO add test cases for compile-time
 
 func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
-  ## return a statement list of idents
   doAssert nestedCommand.kind == nnkCommand
+  ## return a statement list of idents
   result = newStmtList()
 
   var currentNode = nestedCommand
@@ -39,6 +33,12 @@ func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
       break
 
     currentNode = body
+
+func simplify*(node: NimNode): NimNode=
+  result = node
+
+  while result.kind == nnkPar:
+    result = result[0]
 
 func flattenDeepInfix(childNode: NimNode, infixIdent: string, result: var NimNode)=
   if childNode.kind == nnkInfix and childNode[InfixIdent].repr == infixIdent:
@@ -59,11 +59,13 @@ func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
   flattenDeepInfix  nestedInfix, infixIdent.repr, result
 
 
-static:
+# add macro test functionalities  
+
+macro run=
   block nestedInfix:
     let a = quote:
-      # hamid and ali and mahdi and reza
-      (hamid) and (((ali and mahdi)) and reza)
+      hamid and ali and mahdi and reza
+      # (hamid) and (((ali and mahdi)) and reza)
       # hamid or ali and mahdi or reza
 
     # echo a.treeRepr
@@ -75,3 +77,5 @@ static:
       1 2 ident "string" [das, 3 , 4] 5
     
     echo a.flattenDeepCommands.treeRepr
+
+run()
