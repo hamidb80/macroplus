@@ -1,12 +1,23 @@
-# This is just an example to get you started. You may wish to put all of your
-# tests into a single file, or separate them into multiple `test1`, `test2`
-# etc. files (better names are recommended, just make sure the name starts with
-# the letter 't').
-#
-# To run these tests, simply execute `nimble test`.
-
-import unittest
+import unittest, macros
+import macroplus
 
 import macroplus
-test "can add":
-  check add(5, 5) == 10
+
+macro run=
+  block nestedInfix:
+    let a = quote:
+      hamid and ali and mahdi and reza
+      # (hamid) and (((ali and mahdi)) and reza)
+      # hamid or ali and mahdi or reza
+
+    # echo a.treeRepr
+    # echo "res----------------------"
+    echo a.flattenDeepInfix.treeRepr
+
+  block nestedCommand:
+    let a = quote:
+      1 2 ident "string" [das, 3 , 4] 5
+    
+    echo a.flattenDeepCommands.treeRepr
+
+run()
