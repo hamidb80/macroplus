@@ -31,7 +31,15 @@ const
 template RoutineReturnType*(routine: untyped): untyped=
   routine[RoutineFormalParams][FormalParamsReturnType]
 
-# TODO add test cases for compile-time
+template RoutineArguments*(routine: untyped): untyped=
+  routine[RoutineFormalParams][FormalParamsArguments]
+
+
+func removeUselessPar*(node: NimNode): NimNode=
+  result = node
+
+  while result.kind == nnkPar:
+    result = result[0]
 
 func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
   doAssert nestedCommand.kind == nnkCommand
@@ -49,16 +57,10 @@ func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
 
     currentNode = body
 
-func simplify*(node: NimNode): NimNode=
-  result = node
-
-  while result.kind == nnkPar:
-    result = result[0]
-
 func flattenDeepInfixImpl(childNode: NimNode, infixIdent: string, result: var NimNode)=
   if childNode.kind == nnkInfix and childNode[InfixIdent].repr == infixIdent:
-    flattenDeepInfixImpl simplify childNode[InfixLeftSide], infixIdent, result
-    flattenDeepInfixImpl simplify childNode[InfixRightSide], infixIdent, result
+    flattenDeepInfixImpl removeUselessPar childNode[InfixLeftSide], infixIdent, result
+    flattenDeepInfixImpl removeUselessPar childNode[InfixRightSide], infixIdent, result
   else:
     if childNode.repr != infixIdent:
       result.insert 1, childNode
