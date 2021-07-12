@@ -17,8 +17,9 @@ const
   DefaultIndent* = 4
 
   IdentDefName* = 0
-  IdentDefType* = 1
-  IdentDefDefaultVal* = 2
+  IdentDefNames* = 0..^3 # used in proc(a,b,c = 1)
+  IdentDefType* = ^2
+  IdentDefDefaultVal* = ^1
 
   # see Routines in `macros` module
   RoutineName* = 0
