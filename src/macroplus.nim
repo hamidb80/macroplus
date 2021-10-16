@@ -15,7 +15,8 @@ const
   InfixRightSide* = 2
   InfixOperands* = 1..^1
 
-  DefaultIndent* = 4
+  ColonExprLeftSide* = 0
+  ColonExprrightSide* = 1
 
   IdentDefName* = 0
   IdentDefNames* = 0..^3 # used in proc(a,b,c = 1)
