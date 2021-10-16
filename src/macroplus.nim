@@ -6,7 +6,8 @@ const
   ForIdents* = 0..^3
 
   CommandIdent* = 0
-  CommandBody* = 1
+  CommandIdents* = 0..^2
+  CommandBody* = ^1
 
   InfixIdent* = 0
   InfixOperator* = 0
