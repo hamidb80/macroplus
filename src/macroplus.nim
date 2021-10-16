@@ -22,22 +22,25 @@ const
   IdentDefType* = ^2
   IdentDefDefaultVal* = ^1
 
+  BracketExprIdent* = 0
+  BracketExprParams* = 1..^1
+
   # see Routines in `macros` module
   RoutineName* = 0
   RoutineFormalParams* = 3
   RoutineBody* = ^1
-  
+
   FormalParamsReturnType* = 0
   FormalParamsArguments* = 1..^1
 
-template RoutineReturnType*(routine: untyped): untyped=
+template RoutineReturnType*(routine: untyped): untyped =
   routine[RoutineFormalParams][FormalParamsReturnType]
 
-template RoutineArguments*(routine: untyped): untyped=
+template RoutineArguments*(routine: untyped): untyped =
   routine[RoutineFormalParams][FormalParamsArguments]
 
 
-func removeUselessPar*(node: NimNode): NimNode=
+func removeUselessPar*(node: NimNode): NimNode =
   result = node
 
   while result.kind == nnkPar:
@@ -59,7 +62,8 @@ func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
 
     currentNode = body
 
-func flattenDeepInfixImpl(childNode: NimNode, infixIdent: string, result: var NimNode)=
+func flattenDeepInfixImpl(childNode: NimNode, infixIdent: string,
+    result: var NimNode) =
   if childNode.kind == nnkInfix and childNode[InfixIdent].repr == infixIdent:
     flattenDeepInfixImpl removeUselessPar childNode[InfixLeftSide], infixIdent, result
     flattenDeepInfixImpl removeUselessPar childNode[InfixRightSide], infixIdent, result
@@ -74,5 +78,5 @@ func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
 
   let infixIdent = nestedInfix[InfixIdent]
   result.add infixIdent
-  
+
   flattenDeepInfixImpl nestedInfix, infixIdent.repr, result
