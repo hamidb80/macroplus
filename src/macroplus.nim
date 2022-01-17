@@ -43,6 +43,9 @@ const
   ElifBranchBody* = 1
   ElseBranchBody* = 0
 
+  CallIdent* = 0
+  CallArgs* = 1..^1
+
 template RoutineReturnType*(routine: untyped): untyped=
   routine[RoutineFormalParams][FormalParamsReturnType]
 
