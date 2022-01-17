@@ -29,6 +29,15 @@ const
   FormalParamsReturnType* = 0
   FormalParamsArguments* = 1..^1
 
+  CaseIdent* = 0
+  CaseBranches* = 1..^1
+  CaseBranchIdent* = 0
+  CaseBranchBody* = 1
+
+  ElifBranchCond* = 0
+  ElifBranchBody* = 1
+  ElseBranchBody* = 0
+
 template RoutineReturnType*(routine: untyped): untyped=
   routine[RoutineFormalParams][FormalParamsReturnType]
 
