@@ -37,7 +37,8 @@ const
   CaseIdent* = 0
   CaseBranches* = 1..^1
   CaseBranchIdent* = 0
-  CaseBranchBody* = 1
+  CaseBranchIdents* = 0 .. ^2
+  CaseBranchBody* = ^1
 
   ElifBranchCond* = 0
   ElifBranchBody* = 1
