@@ -94,3 +94,9 @@ func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
   result.add infixIdent
 
   flattenDeepInfixImpl nestedInfix, infixIdent.repr, result
+
+func toTupleNode*(sn: varargs[NimNode]): NimNode =
+  newTree(nnkTupleConstr, sn)
+
+func exported*(identNode: NimNode): NimNode =
+  postfix(identnode, "*")
