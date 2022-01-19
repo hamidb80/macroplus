@@ -47,6 +47,7 @@ const
   CallIdent* = 0
   CallArgs* = 1..^1
 
+
 template RoutineReturnType*(routine: untyped): untyped=
   routine[RoutineFormalParams][FormalParamsReturnType]
 
@@ -100,3 +101,8 @@ func toTupleNode*(sn: varargs[NimNode]): NimNode =
 
 func exported*(identNode: NimNode): NimNode =
   postfix(identnode, "*")
+
+func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode=
+  result = newTree(nnkFormalParams, returnType)
+  for a in args:
+    result.add a
