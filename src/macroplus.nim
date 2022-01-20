@@ -47,6 +47,9 @@ const
   CallIdent* = 0
   CallArgs* = 1..^1
 
+  ObjConstrIdent* = 0
+  ObjConstrFields* = 1 .. ^1
+
 
 template RoutineReturnType*(routine: untyped): untyped=
   routine[RoutineFormalParams][FormalParamsReturnType]
