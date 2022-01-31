@@ -99,6 +99,12 @@ func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
 
   flattenDeepInfixImpl nestedInfix, infixIdent.repr, result
 
+func add*(father: NimNode, nodes: seq[NimNode]): NimNode {.discardable.} =
+  for n in nodes:
+    father.add n
+
+  father
+
 func toTupleNode*(sn: varargs[NimNode]): NimNode =
   newTree(nnkTupleConstr, sn)
 
@@ -106,15 +112,7 @@ func exported*(identNode: NimNode): NimNode =
   postfix(identnode, "*")
 
 func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
-  result = newTree(nnkFormalParams, returnType)
-  for a in args:
-    result.add a
-
-func add*(father: NimNode, nodes: seq[NimNode]): NimNode {.discardable.} =
-  for n in nodes:
-    father.add n
-
-  father
-
+  newTree(nnkFormalParams, returnType).add args
+  
 func toStmtlist*(sn: seq[NimNode]): NimNode =
   newStmtList().add sn
