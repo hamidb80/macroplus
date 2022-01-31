@@ -116,3 +116,11 @@ func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   
 func toStmtlist*(sn: seq[NimNode]): NimNode =
   newStmtList().add sn
+
+macro inlineQuote*(body)= 
+  ## to use quote macro in inline mode 
+  ## inlineQuote( mycode )
+  
+  quote: 
+    `quote`:
+      `body`
