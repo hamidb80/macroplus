@@ -113,14 +113,14 @@ func exported*(identNode: NimNode): NimNode =
 
 func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   newTree(nnkFormalParams, returnType).add args
-  
+
 func toStmtlist*(sn: seq[NimNode]): NimNode =
   newStmtList().add sn
 
-macro inlineQuote*(body)= 
-  ## to use quote macro in inline mode 
+macro inlineQuote*(body) =
+  ## to use quote macro in inline mode
   ## inlineQuote( mycode )
-  
-  quote: 
+
+  return quote:
     `quote`:
       `body`
