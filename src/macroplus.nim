@@ -51,7 +51,7 @@ const
   ObjConstrFields* = 1 .. ^1
 
 
-template RoutineReturnType*(routine: untyped): untyped=
+template RoutineReturnType*(routine: untyped): untyped =
   routine[RoutineFormalParams][FormalParamsReturnType]
 
 template RoutineArguments*(routine: untyped): untyped =
@@ -105,7 +105,16 @@ func toTupleNode*(sn: varargs[NimNode]): NimNode =
 func exported*(identNode: NimNode): NimNode =
   postfix(identnode, "*")
 
-func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode=
+func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   result = newTree(nnkFormalParams, returnType)
   for a in args:
     result.add a
+
+func add*(father: NimNode, nodes: seq[NimNode]): NimNode {.discardable.} =
+  for n in nodes:
+    father.add n
+
+  father
+
+func toStmtlist*(sn: seq[NimNode]): NimNode =
+  newStmtList().add sn
