@@ -122,3 +122,18 @@ template inlineQuote*(body): untyped =
   ## inlineQuote( mycode )
   quote:
     body
+
+
+macro castSafety*(code) =
+  if code.kind in RoutineNodes:
+    let body = code[^1]
+    code[^1] = quote:
+      {.cast(noSideEffect).}:
+        {.cast(gcSafe).}:
+          `body`
+
+  else:
+    quote:
+      {.cast(noSideEffect).}:
+        {.cast(gcSafe).}:
+          `code`
