@@ -28,7 +28,9 @@ const
 
   # see Routines in `macros` module
   RoutineName* = 0
+  RoutineGenericParams* = 2
   RoutineFormalParams* = 3
+  RoutinePragmas* = 4
   RoutineBody* = ^1
 
   FormalParamsReturnType* = 0
