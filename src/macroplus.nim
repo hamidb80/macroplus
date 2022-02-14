@@ -113,6 +113,9 @@ func toTupleNode*(sn: varargs[NimNode]): NimNode =
 func exported*(identNode: NimNode): NimNode =
   postfix(identnode, "*")
 
+func isExportedIdent*(node: NimNode): bool =
+  node.kind == nnkPostfix and node[0].strVal == "*"
+
 func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   newTree(nnkFormalParams, returnType).add args
 
