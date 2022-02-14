@@ -36,6 +36,10 @@ const
   FormalParamsReturnType* = 0
   FormalParamsArguments* = 1..^1
 
+  TypeDefIdent* = 0
+  TypeDefGenericParams* = 1
+  TypeDefBody* = 2
+
   CaseIdent* = 0
   CaseBranches* = 1..^1
   CaseBranchIdent* = 0
