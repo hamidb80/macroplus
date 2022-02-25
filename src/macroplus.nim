@@ -64,10 +64,10 @@ template RoutineArguments*(routine: untyped): untyped =
   routine[RoutineFormalParams][FormalParamsArguments]
 
 
-func removeUselessPar*(node: NimNode): NimNode =
+func removeUselessPars*(node: NimNode): NimNode =
   result = node
 
-  while result.kind == nnkPar:
+  while result.kind == nnkPar and result.len == 1:
     result = result[0]
 
 func add*(father: NimNode, nodes: seq[NimNode]): NimNode {.discardable.} =
