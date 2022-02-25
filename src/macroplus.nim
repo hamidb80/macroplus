@@ -70,41 +70,6 @@ func removeUselessPar*(node: NimNode): NimNode =
   while result.kind == nnkPar:
     result = result[0]
 
-func flattenDeepCommands*(nestedCommand: NimNode): NimNode =
-  doAssert nestedCommand.kind == nnkCommand
-  ## return a statement list of idents
-  result = newStmtList()
-
-  var currentNode = nestedCommand
-  while true:
-    result.add currentNode[CommandIdent]
-
-    let body = currentNode[CommandBody]
-    if body.kind != nnkCommand:
-      result.add body
-      break
-
-    currentNode = body
-
-func flattenDeepInfixImpl(childNode: NimNode, infixIdent: string,
-    result: var NimNode) =
-  if childNode.kind == nnkInfix and childNode[InfixIdent].repr == infixIdent:
-    flattenDeepInfixImpl removeUselessPar childNode[InfixLeftSide], infixIdent, result
-    flattenDeepInfixImpl removeUselessPar childNode[InfixRightSide], infixIdent, result
-  else:
-    if childNode.repr != infixIdent:
-      result.insert 1, childNode
-
-func flattenDeepInfix*(nestedInfix: NimNode): NimNode =
-  ## return a statement list of idents
-  doAssert nestedInfix.kind == nnkInfix
-  result = newNimNode(nnkInfix)
-
-  let infixIdent = nestedInfix[InfixIdent]
-  result.add infixIdent
-
-  flattenDeepInfixImpl nestedInfix, infixIdent.repr, result
-
 func add*(father: NimNode, nodes: seq[NimNode]): NimNode {.discardable.} =
   for n in nodes:
     father.add n
@@ -131,18 +96,3 @@ template inlineQuote*(body): untyped =
   ## inlineQuote( mycode )
   quote:
     body
-
-
-# macro castSafety*(code) =
-#   if code.kind in RoutineNodes:
-#     let body = code[^1]
-#     code[^1] = quote:
-#       {.cast(noSideEffect).}:
-#         {.cast(gcSafe).}:
-#           `body`
-
-#   else:
-#     quote:
-#       {.cast(noSideEffect).}:
-#         {.cast(gcSafe).}:
-#           `code`
