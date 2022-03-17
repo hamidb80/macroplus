@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.23"
+version       = "0.1.24"
 author        = "hamidb80"
 description   = "a collection of useful macro functionalities & enums"
 license       = "MIT"

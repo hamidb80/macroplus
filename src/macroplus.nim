@@ -27,6 +27,9 @@ const
   BracketExprIdent* = 0
   BracketExprParams* = 1..^1
 
+  CurlyExprIdent* = 0
+  CurlyExprParams* = 1..^1
+
   # see Routines in `macros` module
   RoutineName* = 0
   RoutineGenericParams* = 2
