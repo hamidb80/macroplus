@@ -13,6 +13,7 @@ const
   InfixOperator* = 0
   InfixLeftSide* = 1
   InfixRightSide* = 2
+  InfixBody* = 3
   InfixOperands* = 1..^1
 
   ColonExprLeftSide* = 0
