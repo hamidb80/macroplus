@@ -80,11 +80,3 @@ for arg in args:
 ```
 
 isn't it more readable and understandable?
-
-## TODO
-I plan to add this features in the future
-
-TODOs:
-- [ ] add a documention page 
-- [ ] add tests
-- [ ] add unittest support for macros [or maybe in separted repo] 
