@@ -89,6 +89,9 @@ func exported*(identNode: NimNode): NimNode =
 func isExportedIdent*(node: NimNode): bool =
   node.kind == nnkPostfix and node[0].strVal == "*"
 
+func matchInfix*(n: NimNode, infixIdent: string): bool =
+  n.kind == nnkInfix and n[InfixIdent].strVal == infixIdent
+
 func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   newTree(nnkFormalParams, returnType).add args
 
