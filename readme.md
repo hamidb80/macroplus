@@ -95,4 +95,6 @@ node[callArgs[0]] # cheap and good
 * add intuitive indexing
 
 ## Comparision to `macroutils`
-while [macroutils](https://github.com/PMunch/macroutils) has more features along with enhancing readability, like *pattern matching*/*traversing AST tree*/*advanced code quoting*/*typed NimNodes* which can be really helpful, when dealing with AST, most o the times I found myself writing specific `proc`s for my edge cases. so I made this library that contains just small and tiny utilities. 
+[macroutils](https://github.com/PMunch/macroutils) has more features along with enhancing readability, like *pattern matching*/*traversing AST tree*/*advanced code quoting*/*typed NimNodes* which can be really helpful.
+
+when dealing with AST, most of the times I found myself writing specific functionalities for my edge cases which `macroutils` cannot cover. so I made this library that contains just small and tiny utilities.
