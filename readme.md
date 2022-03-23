@@ -12,7 +12,7 @@ this examples may change your mind to use this library or may not
 but I found them reasonable
 
 
-### eg 1
+### e.g. 1
 imagine we have a AST representation of a a `proc` definition
 
 code:
@@ -80,3 +80,19 @@ for arg in args:
 ```
 
 isn't it more readable and understandable?
+
+
+## Features
+### Intuitive Indexing
+assume `node` is type of `NimNode`
+```nim
+node[callArgs][0] # expensive and bad
+node[callArgs[0]] # cheap and good
+```
+
+## Change Logs
+### `0.1.x` -> `0.2.0`
+* add intuitive indexing
+
+## Comparision to `macroutils`
+while [macroutils](https://github.com/PMunch/macroutils) has more features along with enhancing readability, like *pattern matching*/*traversing AST tree*/*advanced code quoting*/*typed NimNodes* which can be really helpful, when dealing with AST, most o the times I found myself writing specific `proc`s for my edge cases. so I made this library that contains just small and tiny utilities. 

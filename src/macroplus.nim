@@ -1,12 +1,30 @@
 import macros
 
+type
+  Index = int or BackwardsIndex
+  MPSlice[A: Index, B: int or BackwardsIndex] {.borrow: `.`.} = distinct HSlice[A, B]
+
+func `[]`*[T](r: MPSlice[int, T], index: int): int =
+  r.a + index
+
+func `[]`*(r: MPSlice[int, Index], index: BackwardsIndex): BackwardsIndex =
+  BackwardsIndex(r.b.int + index.int - 1)
+
+converter toHSlice*[A, B](mps: MPSlice[A, B]): HSlice[A, B] =
+  HSlice[A, B](mps)
+
+func c[A, B](r: HSlice[A, B]): MPSlice[A, B] =
+  MPSlice[A, B](r)
+
+## now you can do node[callArgs[0]] instead of node[callArgs][0]
+
 const
   ForBody* = ^1
   ForRange* = ^2
-  ForIdents* = 0..^3
+  ForIdents* = c 0..^3
 
   CommandIdent* = 0
-  CommandIdents* = 0..^2
+  CommandIdents* = c 0..^2
   CommandBody* = ^1
 
   InfixIdent* = 0
@@ -14,21 +32,21 @@ const
   InfixLeftSide* = 1
   InfixRightSide* = 2
   InfixBody* = 3
-  InfixOperands* = 1..^1
+  InfixOperands* = c 1..^1
 
   ColonExprLeftSide* = 0
   ColonExprrightSide* = 1
 
   IdentDefName* = 0
-  IdentDefNames* = 0..^3 # used in proc(a,b,c = 1)
+  IdentDefNames* = c 0..^3 # used in proc(a,b,c = 1)
   IdentDefType* = ^2
   IdentDefDefaultVal* = ^1
 
   BracketExprIdent* = 0
-  BracketExprParams* = 1..^1
+  BracketExprParams* = c 1..^1
 
   CurlyExprIdent* = 0
-  CurlyExprParams* = 1..^1
+  CurlyExprParams* = c 1..^1
 
   # see Routines in `macros` module
   RoutineName* = 0
@@ -38,16 +56,16 @@ const
   RoutineBody* = ^1
 
   FormalParamsReturnType* = 0
-  FormalParamsArguments* = 1..^1
+  FormalParamsArguments* = c 1..^1
 
   TypeDefIdent* = 0
   TypeDefGenericParams* = 1
   TypeDefBody* = 2
 
   CaseIdent* = 0
-  CaseBranches* = 1..^1
+  CaseBranches* = c 1..^1
   CaseBranchIdent* = 0
-  CaseBranchIdents* = 0 .. ^2
+  CaseBranchIdents* = c 0..^2
   CaseBranchBody* = ^1
 
   ElifBranchCond* = 0
@@ -55,10 +73,10 @@ const
   ElseBranchBody* = 0
 
   CallIdent* = 0
-  CallArgs* = 1..^1
+  CallArgs* = c 1..^1
 
   ObjConstrIdent* = 0
-  ObjConstrFields* = 1 .. ^1
+  ObjConstrFields* = c 1..^1
 
 
 template RoutineReturnType*(routine: untyped): untyped =

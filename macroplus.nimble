@@ -1,8 +1,8 @@
 # Package
 
-version       = "0.1.25"
+version       = "0.2.0"
 author        = "hamidb80"
-description   = "a collection of useful macro functionalities & enums"
+description   = "a collection of constants and small procs that focues on readability"
 license       = "MIT"
 srcDir        = "src"
 
