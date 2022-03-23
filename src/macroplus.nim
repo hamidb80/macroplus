@@ -19,10 +19,6 @@ converter toHSlice*[A, B](mps: MPSlice[A, B]): HSlice[A, B] =
 func c[A, B](r: HSlice[A, B]): MPSlice[A, B] =
   MPSlice[A, B](r)
 
-## now you can do node[callArgs[0]] instead of node[callArgs][0]
-
-const a = c 1..^2
-echo a[^1].int
 
 const
   ForBody* = ^1
