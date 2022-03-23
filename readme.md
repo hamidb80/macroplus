@@ -88,6 +88,7 @@ assume `node` is type of `NimNode`
 ```nim
 node[callArgs][0] # expensive and bad
 node[callArgs[0]] # cheap and good
+node[callArgs[^1]] # yes even backwards indexes
 ```
 
 ## Change Logs
