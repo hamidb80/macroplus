@@ -91,6 +91,9 @@ node[callArgs[0]] # cheap and good
 ```
 
 ## Change Logs
+### `0.2.0` -> `0.2.1`
+* add `rchildren` iterator
+
 ### `0.1.x` -> `0.2.0`
 * add intuitive indexing
 

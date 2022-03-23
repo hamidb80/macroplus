@@ -121,3 +121,8 @@ template inlineQuote*(body): untyped =
   ## inlineQuote( mycode )
   quote:
     body
+
+
+iterator rchildren*(n: NimNode): NimNode =
+  for i in (n.len-1)..0:
+    yield n[i]
