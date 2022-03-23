@@ -124,5 +124,5 @@ template inlineQuote*(body): untyped =
 
 
 iterator rchildren*(n: NimNode): NimNode =
-  for i in (n.len-1)..0:
+  for i in countdown(n.len-1, 0):
     yield n[i]
