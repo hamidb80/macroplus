@@ -1,5 +1,7 @@
 import macros
 
+# ptypes --------------------------------------------
+
 type
   Index = int or BackwardsIndex
   MPSlice[A: Index, B: int or BackwardsIndex] {.borrow: `.`.} = distinct HSlice[A, B]
@@ -10,7 +12,8 @@ func `[]`*[T](r: MPSlice[int, T], index: int): int =
 func `[]`*(r: MPSlice[int, int], index: BackwardsIndex): int =
   r.b - (index.int - 1)
 
-func `[]`*(r: MPSlice[int, BackwardsIndex], index: BackwardsIndex): BackwardsIndex =
+func `[]`*(r: MPSlice[int, BackwardsIndex],
+    index: BackwardsIndex): BackwardsIndex =
   BackwardsIndex(r.b.int + index.int - 1)
 
 converter toHSlice*[A, B](mps: MPSlice[A, B]): HSlice[A, B] =
@@ -19,6 +22,7 @@ converter toHSlice*[A, B](mps: MPSlice[A, B]): HSlice[A, B] =
 func c[A, B](r: HSlice[A, B]): MPSlice[A, B] =
   MPSlice[A, B](r)
 
+# defs --------------------------------------------
 
 const
   ForBody* = ^1
@@ -81,6 +85,7 @@ const
   ObjConstrIdent* = 0
   ObjConstrFields* = c 1..^1
 
+# macros & AST --------------------------------------------
 
 template RoutineReturnType*(routine: untyped): untyped =
   routine[RoutineFormalParams][FormalParamsReturnType]
@@ -125,6 +130,7 @@ template inlineQuote*(body): untyped =
   quote:
     body
 
+# heplers -------------------------------------
 
 iterator rchildren*(n: NimNode): NimNode =
   for i in countdown(n.len-1, 0):
