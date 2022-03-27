@@ -31,6 +31,7 @@ const
 
   CommandIdent* = 0
   CommandIdents* = c 0..^2
+  CommandArgs* = c 1..^1
   CommandBody* = ^1
 
   InfixIdent* = 0
