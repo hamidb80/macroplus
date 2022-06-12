@@ -117,7 +117,13 @@ func isExportedIdent*(node: NimNode): bool =
   node.kind == nnkPostfix and node[0].strVal == "*"
 
 func matchInfix*(n: NimNode, infixIdent: string): bool =
-  n.kind == nnkInfix and n[InfixIdent].strVal == infixIdent
+  if n.kind == nnkInfix:
+    let i = n[InfixIdent]
+    return `==` infixIdent:
+      case i.kind:
+      of nnkOpenSymChoice: i[0].strval 
+      else: i.strVal
+
 
 func genFormalParams*(returnType: NimNode, args: openArray[NimNode]): NimNode =
   newTree(nnkFormalParams, returnType).add args
