@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.3"
+version       = "0.2.4"
 author        = "hamidb80"
 description   = "a collection of constants and tiny utilities that focuses on readability"
 license       = "MIT"
