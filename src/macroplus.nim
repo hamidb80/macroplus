@@ -42,8 +42,11 @@ const
   InfixBody* = 3
   InfixOperands* = c 1..^1
 
+  AsgnLeftSide* = 0
+  AsgnRightSide* = 1
+
   ColonExprLeftSide* = 0
-  ColonExprrightSide* = 1
+  ColonExprRightSide* = 1
 
   IdentDefName* = 0
   IdentDefNames* = c 0..^3 # used in proc(a,b,c = 1)
