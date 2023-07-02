@@ -123,9 +123,9 @@ func isExportedIdent*(node: NimNode): bool =
 func matchInfix*(n: NimNode, infixIdent: string): bool =
   if n.kind == nnkInfix:
     let i = n[InfixIdent]
-    return `==` infixIdent:
+    return `==`infixIdent:
       case i.kind:
-      of nnkOpenSymChoice: i[0].strval 
+      of nnkOpenSymChoice: i[0].strval
       else: i.strVal
 
 
