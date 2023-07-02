@@ -85,6 +85,7 @@ const
 
   CallIdent* = 0
   CallArgs* = c 1..^1
+  CallBody* = ^1
 
   ObjConstrIdent* = 0
   ObjConstrFields* = c 1..^1
